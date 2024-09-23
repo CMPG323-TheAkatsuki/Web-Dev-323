@@ -28,7 +28,15 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="Assignment Name" />
+                android:text="Assignment name" />
+
+            <EditText
+                android:id="@+id/editTextText4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="Mark/Mark" />
 
             <EditText
                 android:id="@+id/editTextTextMultiLine"
@@ -36,7 +44,14 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="start|top"
-                android:inputType="none" />
+                android:inputType="none"
+                android:text="A very long response explaining where there could have been improved" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Return" />
         </LinearLayout>
     </ScrollView>
 
