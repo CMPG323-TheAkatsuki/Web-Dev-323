@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const UserAdministraOnPage = () => {
     const [user, setUser] = useState({
@@ -6,18 +6,27 @@ const UserAdministraOnPage = () => {
         firstName: "",
         lastName: "",
         emailAddress: "",
-        role: "Student" // Default role as Student
+        role: "Student", // Default role as Student
     });
 
     const [userList, setUserList] = useState([]);
     const [action, setAction] = useState("add"); // Default action
+    const apiUrl = "http://localhost:3000/api/users"; // Your Express API URL
+
+    // Fetch users from the backend when the component loads
+    useEffect(() => {
+        fetch(apiUrl)
+            .then((response) => response.json())
+            .then((data) => setUserList(data))
+            .catch((error) => console.error("Error fetching users:", error));
+    }, []);
 
     // Handle changes in input fields
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
             ...prevUser,
-            [name]: value
+            [name]: value,
         }));
     };
 
@@ -25,7 +34,7 @@ const UserAdministraOnPage = () => {
     const handleRoleChange = (e) => {
         setUser((prevUser) => ({
             ...prevUser,
-            role: e.target.value
+            role: e.target.value,
         }));
     };
 
@@ -34,28 +43,54 @@ const UserAdministraOnPage = () => {
         setAction(e.target.value);
     };
 
-    // Add user to list
+    // Add user to the list (API POST call)
     const handleAdd = () => {
-        setUserList((prevList) => [...prevList, user]);
-        clearForm();
+        fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        })
+            .then((response) => response.json())
+            .then((newUser) => {
+                setUserList((prevList) => [...prevList, newUser]);
+                clearForm();
+            })
+            .catch((error) => console.error("Error adding user:", error));
     };
 
-    // Update user in the list based on Student No
+    // Update user in the list based on Student No (API PUT call)
     const handleUpdate = () => {
-        setUserList((prevList) =>
-            prevList.map((u) =>
-                u.studentNo === user.studentNo ? user : u
-            )
-        );
-        clearForm();
+        fetch(`${apiUrl}/${user.studentNo}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        })
+            .then((response) => response.json())
+            .then((updatedUser) => {
+                setUserList((prevList) =>
+                    prevList.map((u) => (u.studentNo === user.studentNo ? updatedUser : u))
+                );
+                clearForm();
+            })
+            .catch((error) => console.error("Error updating user:", error));
     };
 
-    // Delete user from the list based on Student No
+    // Delete user from the list based on Student No (API DELETE call)
     const handleDelete = () => {
-        setUserList((prevList) =>
-            prevList.filter((u) => u.studentNo !== user.studentNo)
-        );
-        clearForm();
+        fetch(`${apiUrl}/${user.studentNo}`, {
+            method: "DELETE",
+        })
+            .then(() => {
+                setUserList((prevList) =>
+                    prevList.filter((u) => u.studentNo !== user.studentNo)
+                );
+                clearForm();
+            })
+            .catch((error) => console.error("Error deleting user:", error));
     };
 
     // Submit action handler based on selected admin action
@@ -76,7 +111,7 @@ const UserAdministraOnPage = () => {
             firstName: "",
             lastName: "",
             emailAddress: "",
-            role: "Student"
+            role: "Student",
         });
     };
 
@@ -202,3 +237,4 @@ const UserAdministraOnPage = () => {
 };
 
 export default UserAdministraOnPage;
+
