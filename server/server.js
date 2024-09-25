@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import records from "./routes/record.js";
 import morgan from "morgan";
+import router from "./routes/routes.js";
 const PORT = process.env.PORT || 5050;
 const app = express();
 
@@ -16,6 +17,12 @@ const port = 8080;
 app.get('/', (req,res) => {
     res.status(201).json("Home GET Request");
 });
+
+/** api routes */
+app.use('/api',router)
+
+
+
 // start the Express server
 app.listen(PORT, () => {
   console.log(`Server connected to http://localhost:${PORT}`);
