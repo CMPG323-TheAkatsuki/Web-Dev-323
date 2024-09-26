@@ -1,21 +1,18 @@
-import com.android.build.gradle.internal.tasks.PerModuleReportDependenciesTask
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.example.app"
+    namespace = "com.example.cmpg323app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.app"
+        applicationId = "com.example.cmpg323app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,13 +30,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    packaging{
+        resources.merges.add("META-INF/native-image/org.mongodb/bson/native-image.properties")
+        resources.merges.add("META-INF/native-image/native-image.properties")
+        resources.merges.add("META-INF/native-image/reflect-config.json")
+    }
     kotlinOptions {
         jvmTarget = "11"
     }
-
 }
 
 dependencies {
+
+    implementation("org.mongodb:mongodb-driver-kotlin-sync:5.2.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

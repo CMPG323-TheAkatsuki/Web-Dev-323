@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "App"
+rootProject.name = "CMPG323APP"
 include(":app")
+ 

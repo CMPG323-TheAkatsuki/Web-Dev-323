@@ -10,10 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App"
+        android:theme="@style/Theme.CMPG323APP"
         tools:targetApi="31">
         <activity
-            android:name="kotlinClasses.App_Main_Code"
+            android:name=".LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
